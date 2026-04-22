@@ -180,10 +180,6 @@ function App() {
             </div>
             
             <div className="ml-auto flex items-center gap-3">
-              <div className="hidden sm:flex items-center gap-2 px-4 py-2 bg-slate-800/50 rounded-xl border border-slate-700/50">
-                <Zap className="w-4 h-4 text-amber-400" />
-                <span className="text-slate-300 text-sm font-medium">AI Powered</span>
-              </div>
               <div className="flex items-center gap-2 px-4 py-2 bg-emerald-500/10 rounded-xl border border-emerald-500/20">
                 <span className="relative flex h-2.5 w-2.5">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
