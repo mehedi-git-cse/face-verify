@@ -85,44 +85,44 @@ export default function ImageUploader({ onImageSelect, disabled }) {
             relative border-2 border-dashed rounded-2xl p-10 text-center
             transition-all duration-300 cursor-pointer group
             ${isDragging 
-              ? 'border-blue-500 bg-blue-500/10' 
-              : 'border-slate-600/50 hover:border-blue-500/50 hover:bg-slate-800/30'
+              ? 'border-violet-500 bg-violet-50 dark:bg-violet-900/20' 
+              : 'border-slate-300 dark:border-slate-600 hover:border-violet-400 hover:bg-violet-50/70 dark:hover:bg-violet-900/10'
             }
             ${disabled ? 'opacity-50 cursor-not-allowed' : ''}
           `}
         >
           {/* Animated background */}
           <div className="absolute inset-0 rounded-2xl overflow-hidden pointer-events-none">
-            <div className={`absolute inset-0 bg-gradient-to-br from-blue-500/5 to-cyan-500/5 transition-opacity duration-300 
+            <div className={`absolute inset-0 bg-gradient-to-br from-violet-500/5 to-purple-500/5 transition-opacity duration-300 
               ${isDragging ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`} />
           </div>
           
           <div className="relative flex flex-col items-center gap-4">
             <div className={`p-4 rounded-2xl transition-all duration-300 
-              ${isDragging ? 'bg-blue-500/20 scale-110' : 'bg-slate-700/50 group-hover:bg-blue-500/15 group-hover:scale-105'}`}>
-              <Upload className={`w-8 h-8 transition-colors duration-300 ${isDragging ? 'text-blue-400' : 'text-slate-400 group-hover:text-blue-400'}`} />
+              ${isDragging ? 'bg-violet-100 dark:bg-violet-900/50 scale-110' : 'bg-slate-100 dark:bg-slate-700 group-hover:bg-violet-100 dark:group-hover:bg-violet-900/50 group-hover:scale-105'}`}>
+              <Upload className={`w-8 h-8 transition-colors duration-300 ${isDragging ? 'text-violet-600' : 'text-slate-500 group-hover:text-violet-600'}`} />
             </div>
             <div>
-              <p className="text-lg font-semibold text-slate-200">
+              <p className="text-lg font-semibold text-slate-800 dark:text-slate-100">
                 Drop your image here
               </p>
-              <p className="text-sm text-slate-400 mt-1">
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
                 or click to browse from your device
               </p>
             </div>
-            <div className="flex items-center gap-2 px-3 py-1.5 bg-slate-700/50 rounded-lg">
-              <span className="text-xs text-slate-400">Supports:</span>
-              <span className="text-xs text-slate-300 font-medium">JPG, PNG, WEBP</span>
+            <div className="flex items-center gap-2 px-3 py-1.5 bg-slate-100 dark:bg-slate-700 rounded-lg border border-slate-200 dark:border-slate-600">
+              <span className="text-xs text-slate-500 dark:text-slate-400">Supports:</span>
+              <span className="text-xs text-slate-700 dark:text-slate-200 font-medium">JPG, PNG, WEBP</span>
             </div>
           </div>
         </div>
       ) : (
         <div className="relative">
-          <div className="relative rounded-2xl overflow-hidden border border-slate-700/50 shadow-xl bg-slate-800/50">
+          <div className="relative rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700 shadow-lg bg-white dark:bg-slate-800">
             <img
               src={preview}
               alt="Preview"
-              className="w-full h-64 object-contain bg-slate-900/50"
+              className="w-full h-64 object-contain bg-slate-50 dark:bg-slate-700"
             />
             <button
               onClick={clearImage}
@@ -142,8 +142,8 @@ export default function ImageUploader({ onImageSelect, disabled }) {
               Ready
             </div>
           </div>
-          <div className="mt-4 flex items-center justify-center gap-2 text-sm text-slate-400">
-            <Image className="w-4 h-4 text-blue-400" />
+          <div className="mt-4 flex items-center justify-center gap-2 text-sm text-slate-600 dark:text-slate-300">
+            <Image className="w-4 h-4 text-violet-500" />
             <span>Image ready for verification</span>
           </div>
         </div>

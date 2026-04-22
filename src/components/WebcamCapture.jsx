@@ -83,12 +83,12 @@ export default function WebcamCapture({ onImageCapture, disabled }) {
 
   if (error) {
     return (
-      <div className="w-full p-10 text-center bg-red-500/10 rounded-2xl border border-red-500/20">
+      <div className="w-full p-10 text-center bg-red-50 dark:bg-red-900/20 rounded-2xl border border-red-200 dark:border-red-700/50">
         <div className="w-16 h-16 mx-auto mb-4 bg-red-500/20 rounded-2xl flex items-center justify-center">
           <VideoOff className="w-8 h-8 text-red-400" />
         </div>
-        <p className="text-red-300 font-semibold mb-1">Camera Access Required</p>
-        <p className="text-red-400/70 text-sm mb-5">{error}</p>
+        <p className="text-red-700 dark:text-red-300 font-semibold mb-1">Camera Access Required</p>
+        <p className="text-red-600 dark:text-red-400 text-sm mb-5">{error}</p>
         <button
           onClick={() => {
             setError(null);
@@ -108,7 +108,7 @@ export default function WebcamCapture({ onImageCapture, disabled }) {
 
       {!capturedImage ? (
         <div className="space-y-4">
-          <div className="relative rounded-2xl overflow-hidden bg-slate-900 aspect-video border border-slate-700/50 shadow-xl">
+          <div className="relative rounded-2xl overflow-hidden bg-slate-100 dark:bg-slate-800 aspect-video border border-slate-200 dark:border-slate-700 shadow-lg">
             <video
               ref={videoRef}
               autoPlay
@@ -118,12 +118,12 @@ export default function WebcamCapture({ onImageCapture, disabled }) {
             />
             
             {!isStreaming && (
-              <div className="absolute inset-0 flex items-center justify-center bg-slate-900">
+              <div className="absolute inset-0 flex items-center justify-center bg-slate-100 dark:bg-slate-800">
                 <div className="text-center">
-                  <div className="w-16 h-16 mx-auto mb-3 bg-slate-800 rounded-2xl flex items-center justify-center">
-                    <Camera className="w-8 h-8 text-slate-500 animate-pulse" />
+                  <div className="w-16 h-16 mx-auto mb-3 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-2xl flex items-center justify-center">
+                    <Camera className="w-8 h-8 text-slate-500 dark:text-slate-400 animate-pulse" />
                   </div>
-                  <p className="text-slate-400 text-sm font-medium">Initializing camera...</p>
+                  <p className="text-slate-600 dark:text-slate-400 text-sm font-medium">Initializing camera...</p>
                 </div>
               </div>
             )}
@@ -133,15 +133,15 @@ export default function WebcamCapture({ onImageCapture, disabled }) {
               <div className="absolute inset-0 pointer-events-none">
                 <div className="absolute inset-6 border-2 border-white/20 rounded-2xl" />
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-                  <div className="w-36 h-36 border-2 border-blue-400/50 rounded-full">
-                    <div className="absolute inset-2 border border-blue-400/30 rounded-full" />
+                  <div className="w-36 h-36 border-2 border-violet-400/60 rounded-full">
+                    <div className="absolute inset-2 border border-violet-400/30 rounded-full" />
                   </div>
                 </div>
                 {/* Corner guides */}
-                <div className="absolute top-4 left-4 w-6 h-6 border-l-2 border-t-2 border-blue-400/50 rounded-tl-lg" />
-                <div className="absolute top-4 right-4 w-6 h-6 border-r-2 border-t-2 border-blue-400/50 rounded-tr-lg" />
-                <div className="absolute bottom-4 left-4 w-6 h-6 border-l-2 border-b-2 border-blue-400/50 rounded-bl-lg" />
-                <div className="absolute bottom-4 right-4 w-6 h-6 border-r-2 border-b-2 border-blue-400/50 rounded-br-lg" />
+                <div className="absolute top-4 left-4 w-6 h-6 border-l-2 border-t-2 border-violet-400/60 rounded-tl-lg" />
+                <div className="absolute top-4 right-4 w-6 h-6 border-r-2 border-t-2 border-violet-400/60 rounded-tr-lg" />
+                <div className="absolute bottom-4 left-4 w-6 h-6 border-l-2 border-b-2 border-violet-400/60 rounded-bl-lg" />
+                <div className="absolute bottom-4 right-4 w-6 h-6 border-r-2 border-b-2 border-violet-400/60 rounded-br-lg" />
               </div>
             )}
           </div>
@@ -151,8 +151,8 @@ export default function WebcamCapture({ onImageCapture, disabled }) {
               onClick={switchCamera}
               disabled={disabled || !isStreaming}
               className={`
-                p-3 bg-slate-700/50 text-slate-300 rounded-xl border border-slate-600/50
-                hover:bg-slate-600/50 hover:text-white transition-all
+                p-3 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-xl border border-slate-300 dark:border-slate-600
+                hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-slate-800 dark:hover:text-white transition-all
                 ${(disabled || !isStreaming) ? 'opacity-50 cursor-not-allowed' : ''}
               `}
               title="Switch camera"
@@ -164,9 +164,9 @@ export default function WebcamCapture({ onImageCapture, disabled }) {
               onClick={captureImage}
               disabled={disabled || !isStreaming}
               className={`
-                px-8 py-3.5 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-xl font-bold
-                flex items-center gap-2.5 hover:from-blue-500 hover:to-cyan-500 transition-all
-                shadow-xl shadow-blue-500/30 hover:shadow-blue-500/50 hover:scale-105 active:scale-95
+                px-8 py-3.5 bg-violet-600 text-white rounded-xl font-bold
+                flex items-center gap-2.5 hover:bg-violet-500 transition-all
+                shadow-xl shadow-violet-500/30 hover:shadow-violet-500/50 hover:scale-105 active:scale-95
                 ${(disabled || !isStreaming) ? 'opacity-50 cursor-not-allowed hover:scale-100' : ''}
               `}
             >
@@ -178,7 +178,7 @@ export default function WebcamCapture({ onImageCapture, disabled }) {
               onClick={stopCamera}
               disabled={disabled || !isStreaming}
               className={`
-                p-3 bg-slate-700/50 text-slate-300 rounded-xl border border-slate-600/50
+                p-3 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-xl border border-slate-300 dark:border-slate-600
                 hover:bg-red-500/20 hover:text-red-400 hover:border-red-500/30 transition-all
                 ${(disabled || !isStreaming) ? 'opacity-50 cursor-not-allowed' : ''}
               `}
@@ -190,11 +190,11 @@ export default function WebcamCapture({ onImageCapture, disabled }) {
         </div>
       ) : (
         <div className="space-y-4">
-          <div className="relative rounded-2xl overflow-hidden border border-slate-700/50 shadow-xl bg-slate-900">
+          <div className="relative rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700 shadow-lg bg-white dark:bg-slate-800">
             <img
               src={capturedImage}
               alt="Captured"
-              className="w-full aspect-video object-contain bg-slate-900/50"
+              className="w-full aspect-video object-contain bg-slate-50 dark:bg-slate-700"
             />
             <div className="absolute top-3 right-3 px-3 py-1.5 bg-emerald-500/90 backdrop-blur-sm text-white text-sm font-bold rounded-lg flex items-center gap-1.5">
               <Check className="w-4 h-4" />
@@ -206,9 +206,9 @@ export default function WebcamCapture({ onImageCapture, disabled }) {
             onClick={retake}
             disabled={disabled}
             className={`
-              w-full py-3.5 bg-slate-700/50 text-slate-300 rounded-xl font-semibold
-              flex items-center justify-center gap-2.5 hover:bg-slate-600/50 hover:text-white 
-              border border-slate-600/50 hover:border-slate-500/50 transition-all
+              w-full py-3.5 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 rounded-xl font-semibold
+              flex items-center justify-center gap-2.5 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-slate-900 dark:hover:text-white
+              border border-slate-300 dark:border-slate-600 hover:border-slate-400 dark:hover:border-slate-500 transition-all
               ${disabled ? 'opacity-50 cursor-not-allowed' : ''}
             `}
           >

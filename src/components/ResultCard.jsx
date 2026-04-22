@@ -20,7 +20,7 @@ const CircularProgress = ({ value, max, size = 100, passed }) => {
         passed ? 'bg-emerald-400' : 'bg-rose-400'
       }`} />
       <svg className="relative transform -rotate-90" width={size} height={size}>
-        <circle cx={size/2} cy={size/2} r={radius} fill="none" stroke="#1e293b" strokeWidth="6" opacity="0.3" />
+        <circle cx={size/2} cy={size/2} r={radius} fill="none" stroke="#cbd5e1" strokeWidth="6" opacity="0.9" />
         <circle cx={size/2} cy={size/2} r={radius} fill="none" stroke={`url(#${gradientId})`} strokeWidth="6" strokeLinecap="round"
           strokeDasharray={circumference} strokeDashoffset={offset} 
           className="transition-all duration-1000 ease-out drop-shadow-lg" 
@@ -34,8 +34,8 @@ const CircularProgress = ({ value, max, size = 100, passed }) => {
         </defs>
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <span className="text-2xl font-black text-white">{value}</span>
-        <span className="text-xs text-slate-400 font-medium">of {max}</span>
+        <span className="text-2xl font-black text-slate-900 dark:text-white">{value}</span>
+        <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">of {max}</span>
       </div>
     </div>
   );
@@ -58,8 +58,8 @@ const QuickStat = ({ icon: Icon, label, passed }) => (
   <div className={`group relative flex items-center gap-2 px-3 py-2.5 rounded-xl transition-all duration-300 cursor-default
     border backdrop-blur-sm hover:scale-105 hover:-translate-y-0.5 ${
     passed 
-      ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/20 hover:border-emerald-400/50' 
-      : 'bg-rose-500/10 border-rose-500/30 text-rose-400 hover:bg-rose-500/20 hover:border-rose-400/50'
+      ? 'bg-emerald-50 dark:bg-emerald-900/30 border-emerald-300/70 dark:border-emerald-700/70 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-100 dark:hover:bg-emerald-900/50 hover:border-emerald-400' 
+      : 'bg-rose-50 dark:bg-rose-900/30 border-rose-300/70 dark:border-rose-700/70 text-rose-700 dark:text-rose-300 hover:bg-rose-100 dark:hover:bg-rose-900/50 hover:border-rose-400'
   }`}>
     <Icon className="w-4 h-4" />
     <span className="text-sm font-semibold">{label}</span>
@@ -79,20 +79,20 @@ const DetailRow = ({ label, value, passed }) => {
   };
 
   return (
-    <div className="flex items-center justify-between py-3 border-b border-slate-700/50 last:border-0 group">
-      <span className="text-slate-400 text-sm">{label}</span>
+    <div className="flex items-center justify-between py-3 border-b border-slate-200 dark:border-slate-700 last:border-0 group">
+      <span className="text-slate-600 dark:text-slate-300 text-sm">{label}</span>
       <div className="flex items-center gap-2.5">
         <span className={`font-semibold text-sm ${
-          passed === true ? 'text-emerald-400' : passed === false ? 'text-rose-400' : 'text-amber-400'
+          passed === true ? 'text-emerald-600 dark:text-emerald-400' : passed === false ? 'text-rose-600 dark:text-rose-400' : 'text-amber-500 dark:text-amber-400'
         }`}>
           {formatValue(value)}
         </span>
         <div className={`w-6 h-6 rounded-lg flex items-center justify-center transition-transform group-hover:scale-110 ${
-          passed === true ? 'bg-emerald-500/20' : passed === false ? 'bg-rose-500/20' : 'bg-amber-500/20'
+          passed === true ? 'bg-emerald-100 dark:bg-emerald-900/40' : passed === false ? 'bg-rose-100 dark:bg-rose-900/40' : 'bg-amber-100 dark:bg-amber-900/40'
         }`}>
-          {passed === true ? <CheckCircle className="w-3.5 h-3.5 text-emerald-400" /> :
-           passed === false ? <XCircle className="w-3.5 h-3.5 text-rose-400" /> :
-           <AlertTriangle className="w-3.5 h-3.5 text-amber-400" />}
+          {passed === true ? <CheckCircle className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" /> :
+           passed === false ? <XCircle className="w-3.5 h-3.5 text-rose-600 dark:text-rose-400" /> :
+           <AlertTriangle className="w-3.5 h-3.5 text-amber-500 dark:text-amber-400" />}
         </div>
       </div>
     </div>
@@ -101,24 +101,24 @@ const DetailRow = ({ label, value, passed }) => {
 
 // Professional detail section card
 const DetailSection = ({ title, icon: Icon, status, children }) => (
-  <div className="group bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 overflow-hidden
-                  transition-all duration-300 hover:border-slate-600/50 hover:bg-slate-800/70 hover:shadow-xl hover:shadow-black/20">
+  <div className="group bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm rounded-2xl border border-slate-200 dark:border-slate-700 overflow-hidden
+                  transition-all duration-300 hover:border-slate-300 dark:hover:border-slate-600 hover:bg-white dark:hover:bg-slate-800 hover:shadow-lg hover:shadow-slate-200/70 dark:hover:shadow-slate-900/50">
     {/* Top accent bar */}
     <div className={`h-0.5 transition-all duration-300 ${
-      status ? 'bg-gradient-to-r from-emerald-500 via-emerald-400 to-teal-500' : 'bg-gradient-to-r from-rose-500 via-rose-400 to-pink-500'
+      status ? 'bg-emerald-500' : 'bg-rose-500'
     }`} />
     <div className="p-4">
       <div className="flex items-center gap-3 mb-4">
         <div className={`p-2.5 rounded-xl transition-all duration-300 group-hover:scale-110 ${
-          status ? 'bg-emerald-500/15 text-emerald-400' : 'bg-rose-500/15 text-rose-400'
+          status ? 'bg-emerald-100 dark:bg-emerald-900/40 text-emerald-600 dark:text-emerald-400' : 'bg-rose-100 dark:bg-rose-900/40 text-rose-600 dark:text-rose-400'
         }`}>
           <Icon className="w-5 h-5" />
         </div>
-        <h3 className="font-bold text-white flex-1">{title}</h3>
+        <h3 className="font-bold text-slate-900 dark:text-white flex-1">{title}</h3>
         <span className={`px-2.5 py-1 rounded-lg text-xs font-bold uppercase tracking-wider ${
           status 
-            ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' 
-            : 'bg-rose-500/20 text-rose-400 border border-rose-500/30'
+            ? 'bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-700/50' 
+            : 'bg-rose-100 dark:bg-rose-900/40 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-700/50'
         }`}>
           {status ? 'Pass' : 'Fail'}
         </span>
@@ -137,10 +137,10 @@ const SummaryView = ({ data, imagePreview, onViewDetails }) => {
       {/* Main Result Card - Professional Dark Theme */}
       <div className={`relative overflow-hidden rounded-3xl p-1 ${
         overallPassed 
-          ? 'bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-500' 
-          : 'bg-gradient-to-br from-rose-500 via-pink-500 to-red-500'
+          ? 'bg-gradient-to-br from-emerald-400 via-teal-400 to-cyan-400' 
+          : 'bg-gradient-to-br from-rose-400 via-pink-400 to-red-400'
       }`}>
-        <div className="relative bg-slate-900 rounded-[22px] p-6 overflow-hidden">
+        <div className="relative bg-white dark:bg-slate-800 rounded-[22px] p-6 overflow-hidden border border-slate-200 dark:border-slate-700">
           {/* Decorative elements */}
           <div className="absolute inset-0 opacity-30">
             <div className={`absolute -top-24 -right-24 w-48 h-48 rounded-full blur-3xl ${
@@ -152,21 +152,33 @@ const SummaryView = ({ data, imagePreview, onViewDetails }) => {
           </div>
 
           {/* Grid pattern overlay */}
-          <div className="absolute inset-0 opacity-5" 
-               style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)', backgroundSize: '24px 24px' }} />
+          <div className="absolute inset-0 opacity-40" 
+            style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(15,23,42,0.06) 1px, transparent 0)', backgroundSize: '24px 24px' }} />
 
           <div className="relative flex items-center gap-6">
             {/* Image with ring */}
             {imagePreview && (
               <div className="relative flex-shrink-0">
-                <div className={`absolute -inset-1 rounded-2xl blur-sm ${
-                  overallPassed ? 'bg-emerald-500' : 'bg-rose-500'
+                <div className={`absolute -inset-1 rounded-2xl blur-md ${
+                  overallPassed 
+                    ? 'bg-gradient-to-br from-emerald-400 to-teal-400' 
+                    : 'bg-gradient-to-br from-rose-400 to-pink-400'
                 }`} />
-                <div className="relative w-28 h-28 rounded-2xl overflow-hidden ring-2 ring-white/20">
+                <div className={`relative w-28 h-28 rounded-2xl overflow-hidden ring-2 ${
+                  overallPassed ? 'ring-emerald-400/60' : 'ring-rose-400/60'
+                }`}>
                   <img src={imagePreview} alt="Verified" className="w-full h-full object-cover" />
+                  {/* gradient overlay on image */}
+                  <div className={`absolute inset-0 opacity-20 ${
+                    overallPassed
+                      ? 'bg-gradient-to-t from-emerald-600 to-transparent'
+                      : 'bg-gradient-to-t from-rose-600 to-transparent'
+                  }`} />
                 </div>
                 <div className={`absolute -bottom-2 -right-2 p-2 rounded-xl shadow-2xl ${
-                  overallPassed ? 'bg-emerald-500' : 'bg-rose-500'
+                  overallPassed 
+                    ? 'bg-gradient-to-br from-emerald-500 to-teal-500' 
+                    : 'bg-gradient-to-br from-rose-500 to-pink-500'
                 }`}>
                   {overallPassed 
                     ? <BadgeCheck className="w-5 h-5 text-white" /> 
@@ -180,16 +192,16 @@ const SummaryView = ({ data, imagePreview, onViewDetails }) => {
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2 mb-2">
                 <Award className={`w-4 h-4 ${overallPassed ? 'text-emerald-400' : 'text-rose-400'}`} />
-                <span className="text-slate-400 text-xs font-semibold uppercase tracking-widest">Verification Result</span>
+                <span className="text-slate-500 dark:text-slate-400 text-xs font-semibold uppercase tracking-widest">Verification Result</span>
               </div>
-              <h2 className="text-3xl font-black text-white mb-3 tracking-tight">
+              <h2 className="text-3xl font-black text-slate-900 dark:text-white mb-3 tracking-tight">
                 {overallPassed ? 'Verified Successfully' : 'Verification Failed'}
               </h2>
               <div className="flex flex-wrap items-center gap-3">
                 {quickStats.slice(0, 4).map(({ label, passed }) => (
-                  <div key={label} className="flex items-center gap-2 px-3 py-1.5 bg-slate-800/80 rounded-lg border border-slate-700/50">
+                  <div key={label} className="flex items-center gap-2 px-3 py-1.5 bg-slate-100 dark:bg-slate-700 rounded-lg border border-slate-200 dark:border-slate-600">
                     <StatusDot passed={passed} />
-                    <span className="text-slate-300 text-sm font-medium">{label}</span>
+                    <span className="text-slate-700 dark:text-slate-200 text-sm font-medium">{label}</span>
                   </div>
                 ))}
               </div>
@@ -212,14 +224,14 @@ const SummaryView = ({ data, imagePreview, onViewDetails }) => {
 
       {/* Show mandatory failures directly in summary so users don't miss them */}
       {mandatoryFailures.length > 0 && (
-        <div className="rounded-2xl border border-rose-500/30 bg-rose-500/10 p-4">
+        <div className="rounded-2xl border border-rose-200 dark:border-rose-700/50 bg-rose-50 dark:bg-rose-900/20 p-4">
           <div className="flex items-center gap-2 mb-2">
             <AlertTriangle className="w-5 h-5 text-rose-400" />
-            <h3 className="text-rose-300 font-bold">Why Verification Failed</h3>
+            <h3 className="text-rose-700 dark:text-rose-300 font-bold">Why Verification Failed</h3>
           </div>
           <ul className="space-y-1.5">
             {mandatoryFailures.map((item, idx) => (
-              <li key={`${idx}-${item}`} className="text-sm text-rose-200 leading-relaxed">
+              <li key={`${idx}-${item}`} className="text-sm text-rose-700 dark:text-rose-300 leading-relaxed">
                 {idx + 1}. {item}
               </li>
             ))}
@@ -230,10 +242,10 @@ const SummaryView = ({ data, imagePreview, onViewDetails }) => {
       {/* View Details Button */}
       <button
         onClick={onViewDetails}
-        className="group w-full py-4 bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-2xl 
-                   font-bold text-slate-300 flex items-center justify-center gap-3 
-                   hover:bg-slate-700/50 hover:border-slate-600 hover:text-white
-                   transition-all duration-300 hover:shadow-xl hover:shadow-black/20"
+        className="group w-full py-4 bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm border border-slate-200 dark:border-slate-700 rounded-2xl 
+                   font-bold text-slate-700 dark:text-slate-200 flex items-center justify-center gap-3 
+                   hover:bg-violet-50 dark:hover:bg-violet-900/30 hover:border-violet-200 dark:hover:border-violet-700 hover:text-violet-700 dark:hover:text-violet-300
+                   transition-all duration-300 hover:shadow-lg hover:shadow-violet-100/80 dark:hover:shadow-violet-900/30"
       >
         <span>View Full Analysis</span>
         <ChevronRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
@@ -257,28 +269,38 @@ const DetailsView = ({ data, imagePreview, onBack }) => {
       <div className="flex items-center gap-4">
         <button
           onClick={onBack}
-          className="p-2.5 rounded-xl bg-slate-800/50 border border-slate-700/50 hover:bg-slate-700/50 
-                     hover:border-slate-600 transition-all duration-300 group"
+          className="p-2.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:bg-violet-50 dark:hover:bg-violet-900/30
+                     hover:border-violet-200 dark:hover:border-violet-700 transition-all duration-300 group"
         >
-          <ArrowLeft className="w-5 h-5 text-slate-400 group-hover:text-white transition-colors" />
+          <ArrowLeft className="w-5 h-5 text-slate-500 dark:text-slate-400 group-hover:text-slate-800 dark:group-hover:text-slate-200 transition-colors" />
         </button>
-        <h2 className="text-xl font-bold text-white">Full Analysis Report</h2>
+        <h2 className="text-xl font-bold text-slate-900 dark:text-white">Full Analysis Report</h2>
       </div>
 
       {/* Summary Bar */}
       <div className={`relative overflow-hidden flex items-center justify-between p-5 rounded-2xl ${
         overallPassed 
-          ? 'bg-gradient-to-r from-emerald-600/90 to-teal-600/90' 
-          : 'bg-gradient-to-r from-rose-600/90 to-pink-600/90'
+          ? 'bg-gradient-to-r from-emerald-600 to-teal-600' 
+          : 'bg-gradient-to-r from-rose-600 to-pink-600'
       }`}>
         <div className="absolute inset-0 opacity-20" 
              style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)', backgroundSize: '16px 16px' }} />
         <div className="relative flex items-center gap-4">
           {imagePreview && (
-            <img src={imagePreview} alt="" className="w-14 h-14 rounded-xl object-cover ring-2 ring-white/30 shadow-lg" />
+            <div className="relative flex-shrink-0">
+              <div className={`absolute -inset-0.5 rounded-xl blur-sm ${
+                overallPassed ? 'bg-gradient-to-br from-emerald-300 to-teal-300' : 'bg-gradient-to-br from-rose-300 to-pink-300'
+              }`} />
+              <div className="relative w-14 h-14 rounded-xl overflow-hidden">
+                <img src={imagePreview} alt="" className="w-full h-full object-cover" />
+                <div className={`absolute inset-0 opacity-20 ${
+                  overallPassed ? 'bg-gradient-to-t from-emerald-700 to-transparent' : 'bg-gradient-to-t from-rose-700 to-transparent'
+                }`} />
+              </div>
+            </div>
           )}
           <div>
-            <p className="text-white/70 text-xs font-semibold uppercase tracking-wider">Status</p>
+            <p className="text-white/80 text-xs font-semibold uppercase tracking-wider">Status</p>
             <p className="text-white font-black text-xl">{overallPassed ? 'Passed' : 'Failed'}</p>
           </div>
         </div>
@@ -297,14 +319,14 @@ const DetailsView = ({ data, imagePreview, onBack }) => {
 
       {/* Mandatory failures from API */}
       {mandatoryFailures.length > 0 && (
-        <div className="rounded-2xl border border-rose-500/30 bg-rose-500/10 p-4">
+        <div className="rounded-2xl border border-rose-200 dark:border-rose-700/50 bg-rose-50 dark:bg-rose-900/20 p-4">
           <div className="flex items-center gap-2 mb-3">
             <AlertTriangle className="w-5 h-5 text-rose-400" />
-            <h3 className="text-rose-300 font-bold">Mandatory Failures</h3>
+            <h3 className="text-rose-700 dark:text-rose-300 font-bold">Mandatory Failures</h3>
           </div>
           <ul className="space-y-2">
             {mandatoryFailures.map((item, idx) => (
-              <li key={`${idx}-${item}`} className="text-sm text-rose-200 leading-relaxed">
+              <li key={`${idx}-${item}`} className="text-sm text-rose-700 dark:text-rose-300 leading-relaxed">
                 {idx + 1}. {item}
               </li>
             ))}
@@ -356,35 +378,35 @@ const DetailsView = ({ data, imagePreview, onBack }) => {
         <DetailSection title="Hands Check" icon={Hand} status={hands.is_ok}>
           <DetailRow label="Hands Visible" value={hands.hands_detected} passed={!hands.hands_detected || hands.is_ok} />
           <DetailRow label="Position" value={hands.hand_position} passed={hands.is_ok} />
-          {hands.reason && <p className="text-sm text-slate-500 mt-2 pt-2 border-t border-slate-700/50">{hands.reason}</p>}
+          {hands.reason && <p className="text-sm text-slate-500 dark:text-slate-400 mt-2 pt-2 border-t border-slate-200 dark:border-slate-700">{hands.reason}</p>}
         </DetailSection>
 
         <DetailSection title="Object Detection" icon={Box} status={!objectDetector.non_human_object_present}>
           <DetailRow label="Foreign Objects" value={objectDetector.non_human_object_present} passed={!objectDetector.non_human_object_present} />
-          {objectDetector.reason && <p className="text-sm text-slate-500 mt-2 pt-2 border-t border-slate-700/50">{objectDetector.reason}</p>}
+          {objectDetector.reason && <p className="text-sm text-slate-500 dark:text-slate-400 mt-2 pt-2 border-t border-slate-200 dark:border-slate-700">{objectDetector.reason}</p>}
         </DetailSection>
 
         <DetailSection title="Human Verification" icon={Shield} status={humanOnly.status === 'PASS'}>
           <DetailRow label="Status" value={humanOnly.status} passed={humanOnly.status === 'PASS'} />
-          {humanOnly.reason && <p className="text-sm text-slate-500 mt-2 pt-2 border-t border-slate-700/50">{humanOnly.reason}</p>}
+          {humanOnly.reason && <p className="text-sm text-slate-500 dark:text-slate-400 mt-2 pt-2 border-t border-slate-200 dark:border-slate-700">{humanOnly.reason}</p>}
         </DetailSection>
 
         <DetailSection title="AI Detection" icon={Zap} status={aiPassed}>
           <DetailRow label="AI Generated" value={aiCheck?.is_ai_generated} passed={aiPassed} />
           <DetailRow label="AI Score" value={aiCheck?.ai_score} passed={aiPassed} />
           <DetailRow label="Source" value={aiCheck?.source} passed={aiPassed} />
-          {aiCheck?.reason && <p className="text-sm text-slate-500 mt-2 pt-2 border-t border-slate-700/50">{aiCheck.reason}</p>}
+          {aiCheck?.reason && <p className="text-sm text-slate-500 dark:text-slate-400 mt-2 pt-2 border-t border-slate-200 dark:border-slate-700">{aiCheck.reason}</p>}
         </DetailSection>
 
       </div>
 
       {/* Footer */}
-      <div className="flex items-center justify-between px-5 py-4 bg-slate-800/30 backdrop-blur-sm rounded-2xl border border-slate-700/30">
-        <div className="flex items-center gap-2 text-slate-500 text-sm">
+      <div className="flex items-center justify-between px-5 py-4 bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm rounded-2xl border border-slate-200 dark:border-slate-700">
+        <div className="flex items-center gap-2 text-slate-500 dark:text-slate-400 text-sm">
           <Zap className="w-4 h-4" />
           <span className="font-medium">API Response</span>
         </div>
-        <span className="text-emerald-400 text-sm font-semibold">{msg}</span>
+        <span className="text-emerald-600 text-sm font-semibold">{msg}</span>
       </div>
     </div>
   );
