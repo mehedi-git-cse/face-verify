@@ -130,7 +130,7 @@ const DetailSection = ({ title, icon: Icon, status, children }) => (
 
 // ============ SUMMARY VIEW ============
 const SummaryView = ({ data, imagePreview, onViewDetails }) => {
-  const { score, maxScore, overallPassed, quickStats } = data;
+  const { score, maxScore, overallPassed, quickStats, mandatoryFailures } = data;
 
   return (
     <div className="space-y-5 animate-fade-in-up">
@@ -210,6 +210,23 @@ const SummaryView = ({ data, imagePreview, onViewDetails }) => {
         ))}
       </div>
 
+      {/* Show mandatory failures directly in summary so users don't miss them */}
+      {mandatoryFailures.length > 0 && (
+        <div className="rounded-2xl border border-rose-500/30 bg-rose-500/10 p-4">
+          <div className="flex items-center gap-2 mb-2">
+            <AlertTriangle className="w-5 h-5 text-rose-400" />
+            <h3 className="text-rose-300 font-bold">Why Verification Failed</h3>
+          </div>
+          <ul className="space-y-1.5">
+            {mandatoryFailures.map((item, idx) => (
+              <li key={`${idx}-${item}`} className="text-sm text-rose-200 leading-relaxed">
+                {idx + 1}. {item}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
       {/* View Details Button */}
       <button
         onClick={onViewDetails}
@@ -228,7 +245,11 @@ const SummaryView = ({ data, imagePreview, onViewDetails }) => {
 // ============ DETAILS VIEW ============
 const DetailsView = ({ data, imagePreview, onBack }) => {
   const { score, maxScore, overallPassed, quickStats, face, eyes, quality, pose, lighting, 
-          background, geometry, text, hands, objectDetector, humanOnly, msg } = data;
+    background, geometry, text, hands, objectDetector, humanOnly, aiCheck,
+    mandatoryFailures, msg } = data;
+
+  const textPassed = text.text_ok ?? !text.text_detected;
+  const aiPassed = !(aiCheck?.is_ai_generated);
 
   return (
     <div className="space-y-5 animate-fade-in-up">
@@ -274,6 +295,23 @@ const DetailsView = ({ data, imagePreview, onBack }) => {
         ))}
       </div>
 
+      {/* Mandatory failures from API */}
+      {mandatoryFailures.length > 0 && (
+        <div className="rounded-2xl border border-rose-500/30 bg-rose-500/10 p-4">
+          <div className="flex items-center gap-2 mb-3">
+            <AlertTriangle className="w-5 h-5 text-rose-400" />
+            <h3 className="text-rose-300 font-bold">Mandatory Failures</h3>
+          </div>
+          <ul className="space-y-2">
+            {mandatoryFailures.map((item, idx) => (
+              <li key={`${idx}-${item}`} className="text-sm text-rose-200 leading-relaxed">
+                {idx + 1}. {item}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
       {/* Details Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         
@@ -309,9 +347,9 @@ const DetailsView = ({ data, imagePreview, onBack }) => {
           <DetailRow label="Geometry OK" value={geometry.geometry_ok} passed={geometry.geometry_ok} />
         </DetailSection>
 
-        <DetailSection title="Text Detection" icon={Type} status={!text.text_detected}>
-          <DetailRow label="Text Found" value={text.text_detected} passed={!text.text_detected} />
-          <DetailRow label="Word Count" value={text.word_count} passed={text.word_count === 0} />
+        <DetailSection title="Text Detection" icon={Type} status={textPassed}>
+          <DetailRow label="Text Found" value={text.text_detected} passed={textPassed} />
+          <DetailRow label="Word Count" value={text.word_count} passed={textPassed} />
           <DetailRow label="Text Area" value={`${((text.text_area_ratio || 0) * 100).toFixed(1)}%`} passed={text.text_ok} />
         </DetailSection>
 
@@ -329,6 +367,13 @@ const DetailsView = ({ data, imagePreview, onBack }) => {
         <DetailSection title="Human Verification" icon={Shield} status={humanOnly.status === 'PASS'}>
           <DetailRow label="Status" value={humanOnly.status} passed={humanOnly.status === 'PASS'} />
           {humanOnly.reason && <p className="text-sm text-slate-500 mt-2 pt-2 border-t border-slate-700/50">{humanOnly.reason}</p>}
+        </DetailSection>
+
+        <DetailSection title="AI Detection" icon={Zap} status={aiPassed}>
+          <DetailRow label="AI Generated" value={aiCheck?.is_ai_generated} passed={aiPassed} />
+          <DetailRow label="AI Score" value={aiCheck?.ai_score} passed={aiPassed} />
+          <DetailRow label="Source" value={aiCheck?.source} passed={aiPassed} />
+          {aiCheck?.reason && <p className="text-sm text-slate-500 mt-2 pt-2 border-t border-slate-700/50">{aiCheck.reason}</p>}
         </DetailSection>
 
       </div>
@@ -356,23 +401,40 @@ export default function ResultDisplay({ result, imagePreview }) {
   
   const { face = {}, eyes = {}, quality = {}, pose = {}, lighting = {},
           background = {}, geometry = {}, text = {}, hands = {},
-          object_detector: objectDetector = {}, human_only: humanOnly = {} } = details;
+          object_detector: objectDetector = {}, human_only: humanOnly = {},
+          ai_check: aiCheck = {} } = details;
 
   const score = apiData.score || 0;
-  const maxScore = apiData.max_score || 11;
-  const overallPassed = apiData.image_status === 'passed';
+  const maxScore = apiData.max_score || 13;
+  const overallPassed = String(apiData.image_status || '').toLowerCase() === 'passed';
+  const mandatoryFailuresRaw =
+    apiData.mandatory_failures ??
+    details.mandatory_failures ??
+    result?.mandatory_failures ??
+    [];
+  const mandatoryFailures = Array.isArray(mandatoryFailuresRaw)
+    ? mandatoryFailuresRaw
+    : mandatoryFailuresRaw
+      ? [String(mandatoryFailuresRaw)]
+      : [];
+  const textPassed = text.text_ok ?? !text.text_detected;
+  const aiPassed = !(aiCheck?.is_ai_generated);
 
   const quickStats = [
     { label: 'Face', passed: face.face_detected, icon: Scan },
     { label: 'Eyes', passed: eyes.eyes_detected, icon: Eye },
     { label: 'Quality', passed: !quality.is_blurry, icon: Focus },
     { label: 'Pose', passed: pose.head_pose === 'frontal' || pose.head_pose === 'straight', icon: User },
+    { label: 'Text', passed: textPassed, icon: Type },
+    { label: 'Hands', passed: hands.is_ok, icon: Hand },
+    { label: 'AI', passed: aiPassed, icon: Zap },
     { label: 'Light', passed: lighting.lighting === 'good', icon: Sun },
   ];
 
   const data = {
     score, maxScore, overallPassed, quickStats,
-    face, eyes, quality, pose, lighting, background, geometry, text, hands, objectDetector, humanOnly,
+    face, eyes, quality, pose, lighting, background, geometry, text, hands, objectDetector, humanOnly, aiCheck,
+    mandatoryFailures,
     msg: result.msg
   };
 

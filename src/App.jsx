@@ -176,7 +176,7 @@ function App() {
                 Face Verify
                 <Sparkles className="w-4 h-4 text-cyan-400" />
               </h1>
-              <p className="text-xs text-slate-400 font-medium tracking-wide">Atik Face Verification Systems</p>
+              <p className="text-xs text-slate-400 font-medium tracking-wide">Face Verification Systems</p>
             </div>
             
             <div className="ml-auto flex items-center gap-3">
@@ -308,7 +308,7 @@ function App() {
 
       <footer className="relative py-8 text-center border-t border-white/5">
         <p className="text-slate-500 text-sm font-medium">Face Verification System</p>
-        <p className="text-slate-600 text-xs mt-1">Powered by AI • Secure & Private</p>
+        <p className="text-slate-600 text-xs mt-1">Powered by Atik • Secure & Private</p>
       </footer>
     </div>
   );
